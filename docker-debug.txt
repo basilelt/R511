@@ -1,0 +1,1 @@
+install htop strace lsof gdb valgrind curl wget net-tools tcpdump git vim nano gcc python3 nodejs jq less coreutils dstat screen wireshark-cli

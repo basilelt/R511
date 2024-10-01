@@ -1,0 +1,11 @@
+#Dockerfile
+FROM ubuntu:latest
+
+RUN apt update
+RUN apt install -y apache2 vim
+
+RUN mkdir -p /home/backup
+VOLUME ["/home/backup"]
+COPY myfile /home/backup/myfile
+
+ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
