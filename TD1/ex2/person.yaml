@@ -1,0 +1,19 @@
+---
+nom: Jean Dupont
+age: 35
+
+adresse:
+  numero: 123
+  rue: Rue de la Paix
+  ville: Paris
+  pays: France
+
+langages:
+  - Python
+  - Java
+  - ruby
+
+loisirs:
+  - sport
+  - lecture
+  - voyage
