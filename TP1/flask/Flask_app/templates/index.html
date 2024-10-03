@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Flask App</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Fancy Flask App</h1>
+        <p class="ip-address">Your IP address is: <span>{{request.remote_addr}}</span></p>
+        <div class="fancy-box">
+            <h2>Isn't this fancy?</h2>
+            <p>We've added some style to make things more interesting!</p>
+        </div>
+    </div>
+</body>
+</html>
