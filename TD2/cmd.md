@@ -95,7 +95,3 @@
         Le propriétaire du dossier est `toto:toto` avec les permissions `0755`.
 
 4. `ansible-playbook -i inventory.yml playbook_defg.yml -K --step`
-
-## Exercice 4
-
-1. 
