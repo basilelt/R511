@@ -1,0 +1,57 @@
+---
+- name: Create multiple directories in /tmp
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create directories 1, 2, 3, 4 in /tmp
+      file:
+        path: "/tmp/{{ item }}"
+        state: directory
+        owner: toto
+        group: toto
+        mode: '0755'
+      loop:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+
+    - name: Create a file in /tmp/4
+      file:
+        path: "/tmp/4/test_file.txt"
+        state: touch
+        owner: toto
+        group: toto
+        mode: '0644'
+
+    - name: Create a symbolic link to /tmp/4
+      file:
+        src: "/tmp/4"
+        dest: "/tmp/symlink"
+        state: link
+        owner: toto
+        group: toto
+
+    - name: Check existence of directories and file
+      stat:
+        path: "{{ item }}"
+      loop:
+        - "/tmp/1"
+        - "/tmp/2"
+        - "/tmp/3"
+        - "/tmp/4"
+        - "/tmp/4/test_file.txt"
+        - "/tmp/symlink"
+      register: existence_check
+
+    - name: Display existence status
+      debug:
+        msg: "{{ item.item }}: {{ item.stat.exists }}"
+      loop: "{{ existence_check.results }}"
+
+    - name : Delete "/tmp/4/test_file.txt"
+      file:
+        path: "/tmp/4/test_file.txt"
+        state: absent
+
+

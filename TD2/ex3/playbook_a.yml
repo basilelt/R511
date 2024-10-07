@@ -1,0 +1,21 @@
+---
+- name: Create a directory and check ownership
+  hosts: all
+  become: yes
+  vars:
+    ansible_become_method: sudo
+    ansible_become_flags: '-n'
+  tasks:
+    - name: Create a directory
+      file:
+        path: /home/toto/test_directory
+        state: directory
+
+    - name: Get directory information
+      stat:
+        path: /home/toto/test_directory
+      register: dir_info
+
+    - name: Display directory owner
+      debug:
+        msg: "The owner of the directory is {{ dir_info.stat.pw_name }}"

@@ -1,0 +1,8 @@
+---
+- name: Mon Playbook
+  hosts: all
+  become_user: yes
+  tasks:
+   - name: je debug
+     debug:
+       msg: "La valeur de la variable est Group Message: {{ group_message | default('No group message') }}, Node Message: {{ node_message | default('No node message') }}"

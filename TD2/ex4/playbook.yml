@@ -1,0 +1,64 @@
+---
+- name: Create directories and copy files
+  hosts: all
+  become: true
+  tasks:
+    - name: Create directories 1, 2, 3, 4 in /tmp
+      file:
+        path: "/tmp/{{ item }}"
+        state: directory
+        owner: toto
+        group: toto
+        mode: '0755'
+      with_items:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+
+    - name: Copy files f1, f2, f3 to /tmp/1, /tmp/2, /tmp/3, and /tmp/4
+      copy:
+        src: "{{ item.0 }}"
+        dest: "/tmp/{{ item.1 }}/"
+        owner: toto
+        group: toto
+        mode: '0644'
+      with_nested:
+        - ['f1', 'f2', 'f3']
+        - ['1', '2', '3', '4']
+      register: copy_result
+
+    - name: Debug - Display copy operation results
+      debug:
+        msg: "File {{ item.dest }} copied successfully. Changed: {{ item.changed }}"
+      with_items: "{{ copy_result.results }}"
+
+    - name: Copy g files to /tmp with 'old' prefix
+      copy:
+        src: "g{{ item }}"
+        dest: "/tmp/old_g{{ item }}"
+        owner: toto
+        group: toto
+        mode: '0644'
+      with_sequence: start=1 end=6
+      register: copy_g_result
+
+    - name: Debug - Display g file copy results
+      debug:
+        msg: "File {{ item.dest }} copied successfully. Changed: {{ item.changed }}"
+      with_items: "{{ copy_g_result.results }}"
+
+    - name: Copy g files to /tmp with 'x_i*2' naming
+      copy:
+        src: "g{{ item }}"
+        dest: "/tmp/x{{ item|int * 2 }}"
+        owner: toto
+        group: toto
+        mode: '0644'
+      with_sequence: start=1 end=6
+      register: copy_x_result
+
+    - name: Debug - Display x file copy results
+      debug:
+        msg: "File {{ item.dest }} copied successfully. Changed: {{ item.changed }}"
+      with_items: "{{ copy_x_result.results }}"

@@ -1,0 +1,18 @@
+---
+- name: Create a directory with non root
+  hosts: all
+  become: no  # We don't need sudo if toto is the connection user
+  tasks:
+    - name: Create a directory
+      file:
+        path: "/home/toto/test_directory"
+        state: directory
+
+    - name: Get directory information
+      stat:
+        path: "/home/toto/test_directory"
+      register: dir_info
+
+    - name: Display directory owner and permissions
+      debug:
+        msg: "The directory /home/toto/test_directory is owned by {{ dir_info.stat.pw_name }}"
