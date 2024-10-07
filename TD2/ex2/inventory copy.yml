@@ -1,0 +1,54 @@
+all:
+  vars:
+    ansible_user: toto
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+  children:
+    webserver:
+      vars:
+        group_message: "Ici c'est le groupe des serveurs web"
+      hosts:
+        node2:
+          ansible_host: localhost
+          ansible_port: 2223
+        node3:
+          ansible_host: localhost
+          ansible_port: 2224
+    dbserver:
+      vars:
+        group_message: "Ici c'est le groupe des serveurs de base de données"
+      hosts:
+        node4:
+          ansible_host: localhost
+          ansible_port: 2225
+        node5:
+          ansible_host: localhost
+          ansible_port: 2226
+          node_message: "Ici c'est le noeud 5"
+    appdocker:
+      hosts:
+        node6:
+          ansible_host: localhost
+          ansible_port: 2227
+        node7:
+          ansible_host: localhost
+          ansible_port: 2228
+    common:
+      vars:
+        group_message: "Ici c'est le groupe common"
+      children:
+        webserver:
+        dbserver:
+        appdocker:
+    nocommon:
+      vars:
+        group_message: "Ici c'est le groupe nocommon"
+      hosts:
+        node8:
+          ansible_host: localhost
+          ansible_port: 2229
+        node9:
+          ansible_host: localhost
+          ansible_port: 2230
+        node10:
+          ansible_host: localhost
+          ansible_port: 2231

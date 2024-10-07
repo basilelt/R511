@@ -1,0 +1,48 @@
+all:
+  children:
+    webserver:
+      hosts:
+        node2:
+          ansible_host: localhost
+          ansible_port: 2223
+        node3:
+          ansible_host: localhost
+          ansible_port: 2224
+    dbserver:
+      hosts:
+        node4:
+          ansible_host: localhost
+          ansible_port: 2225
+        node5:
+          ansible_host: localhost
+          ansible_port: 2226
+    appdocker:
+      hosts:
+        node6:
+          ansible_host: localhost
+          ansible_port: 2227
+        node7:
+          ansible_host: localhost
+          ansible_port: 2228
+    common:
+      children:
+        webserver:
+        dbserver:
+        appdocker:
+    nocommon:
+      hosts:
+        node8:
+          ansible_host: localhost
+          ansible_port: 2229
+        node9:
+          ansible_host: localhost
+          ansible_port: 2230
+        node10:
+          ansible_host: localhost
+          ansible_port: 2231
+    monitoring:
+      hosts:
+        node7:
+      children:
+        webserver:
+        dbserver:
