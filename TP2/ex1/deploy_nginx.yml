@@ -1,0 +1,32 @@
+---
+- name: Deploy Nginx
+  hosts: servers
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create custom index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Welcome to my server!</title>
+          </head>
+          <body>
+            <h1>Hello, World!</h1>
+            <p>This is a custom welcome message served by Nginx.</p>
+          </body>
+          </html>

@@ -1,0 +1,96 @@
+---
+- name: Setup Docker-in-Docker and deploy Apache container
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+        update_cache: true
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: true
+
+    - name: Install pip
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install Docker Python library
+      pip:
+        name: docker
+        state: present
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Copy Dockerfile
+      copy:
+        src: ./Dockerfile
+        dest: /home/toto/Dockerfile
+
+    - name: Copy index.html
+      copy:
+        src: ./index.html
+        dest: /home/toto/index.html
+
+    - name: Stop all running containers
+      community.docker.docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ ansible_facts.docker_containers | default([]) | map(attribute='Name') | list }}"
+      ignore_errors: true
+
+    - name: Remove all containers
+      community.docker.docker_container:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ ansible_facts.docker_containers | default([]) | map(attribute='Name') | list }}"
+      ignore_errors: true
+
+    - name: Remove all Docker images
+      community.docker.docker_image:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ ansible_facts.docker_images | default([]) | map(attribute='RepoTags') | flatten | list }}"
+      ignore_errors: true
+
+    - name: Build Docker image
+      community.docker.docker_image:
+        name: "{{ docker_image_name }}"
+        build:
+          path: /home/toto
+        source: build
+      register: build_image
+
+    - name: Run Docker container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image_name }}"
+        state: started
+        ports:
+          - "8080:80"
+      register: run_container

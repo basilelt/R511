@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    web:
+      hosts:
+        docker1:
+          ansible_port: 2222
+    db:
+      hosts:
+        docker2:
+          ansible_port: 2223

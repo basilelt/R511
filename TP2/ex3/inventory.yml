@@ -1,0 +1,7 @@
+---
+all:
+  children:
+    web:
+      hosts:
+        host1:
+          ansible_port: 2222

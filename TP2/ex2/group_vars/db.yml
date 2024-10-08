@@ -1,0 +1,4 @@
+---
+mariadb_db_name: mydb_2024
+mariadb_user: toto
+mariadb_user_password: toto

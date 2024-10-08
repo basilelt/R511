@@ -1,0 +1,6 @@
+---
+ansible_host: localhost
+ansible_user: toto
+ansible_password: toto
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+ansible_python_interpreter: /usr/bin/python3.11 # Disable warning about python version/path
