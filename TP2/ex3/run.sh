@@ -52,7 +52,6 @@ EOF
             -v /var/run/docker.sock:/var/run/docker.sock \
             --privileged \
             -p 2222:22 \
-            --network host \
             debian-ansible-image
     fi
 
