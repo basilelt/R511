@@ -46,14 +46,12 @@ EOF
             -v /var/run/docker.sock:/var/run/docker.sock \
             --privileged \
             -p 2222:22 \
-            -p 8080:80 \
             debian-ansible-image
     else
         docker run -d --name ansible-container \
             -v /var/run/docker.sock:/var/run/docker.sock \
             --privileged \
             -p 2222:22 \
-            -p 8080:80 \
             --network host \
             debian-ansible-image
     fi
