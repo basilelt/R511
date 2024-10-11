@@ -1,0 +1,28 @@
+---
+router:
+  hosts:
+    R1:
+      ansible_host: 192.168.56.102
+      ansible_network_os: cisco.ios.ios
+      ansible_port: 22
+
+      ansible_user: admin
+      ansible_password: toto
+
+      ansible_become: yes
+      ansible_become_method: enable
+      ansible_become_password: enable-pw
+
+switch:
+  hosts:
+    sw1:
+      ansible_host: 192.168.56.103
+      ansible_network_os: cisco.ios.ios
+      ansible_port: 22
+
+      ansible_user: admin
+      ansible_password: toto
+
+      ansible_become: yes
+      ansible_become_method: enable
+      ansible_become_password: enable-pw

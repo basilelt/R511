@@ -1,0 +1,49 @@
+---
+- name: Configure Switch
+  hosts: switch
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+
+  tasks:
+    - name: Change hostname to SW_BLT
+      cisco.ios.ios_config:
+        lines:
+          - hostname SW_BLT
+
+    - name: Create VLAN 200
+      cisco.ios.ios_vlans:
+        config:
+          - name: VLAN200
+            vlan_id: 200
+        state: merged
+
+    - name: Configure interface Ethernet0/1 for VLAN 200
+      cisco.ios.ios_config:
+        parents: "interface Ethernet0/1"
+        lines:
+          - switchport mode access
+          - switchport access vlan 200
+
+    - name: Configure interface Ethernet0/2 for VLAN 200
+      cisco.ios.ios_config:
+        parents: "interface Ethernet0/2"
+        lines:
+          - switchport mode access
+          - switchport access vlan 200
+
+    - name: DISPLAYING THE RUNNING-CONFIG
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: config
+
+    - name: ENSURE BACKUPS DIRECTORY EXISTS
+      file:
+        path: "./backups"
+        state: directory
+      delegate_to: localhost
+
+    - name: SAVE OUTPUT TO ./backups/
+      copy:
+        content: "{{ config.stdout[0] }}"
+        dest: "backups/show_run_{{ inventory_hostname }}.txt"

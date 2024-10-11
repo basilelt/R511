@@ -1,0 +1,5 @@
+Interface                  IP-Address      OK? Method Status                Protocol
+Ethernet0/0                192.168.56.102  YES DHCP   up                    up      
+Ethernet0/1                unassigned      YES unset  administratively down down    
+Ethernet0/2                10.10.10.1      YES manual up                    up      
+Ethernet0/3                unassigned      YES unset  administratively down down

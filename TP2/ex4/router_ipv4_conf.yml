@@ -1,0 +1,31 @@
+---
+- name: AUTOMATIC BACKUP OF INTERFACE STATUS
+  hosts: router
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+  
+  tasks:
+    - name: Config_ipv4_interface
+      ios_config:
+        parents: "interface Ethernet0/2"
+        lines:
+          - description IPv4 ADDRESS
+          - ip address 10.10.10.1 255.255.255.0
+          - no shut
+
+    - name: DISPLAYING IP INTERFACE BRIEF
+      ios_command:
+        commands:
+          - show ip interface brief
+      register: interface_status
+
+    - name: ENSURE ios_show DIRECTORY EXISTS
+      file:
+        path: "./ios_show"
+        state: directory
+      delegate_to: localhost
+
+    - name: SAVE INTERFACE STATUS TO ./ios_show/
+      copy:
+        content: "{{ interface_status.stdout[0] }}"
+        dest: "ios_show/show_ip_intr_br_{{ inventory_hostname }}.txt"
