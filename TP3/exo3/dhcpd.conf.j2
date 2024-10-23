@@ -1,0 +1,12 @@
+default-lease-time 600;
+max-lease-time 7200;
+option domain-name "iut.fr";
+option domain-name-servers ns1.iut.fr, ns2.iut.fr;
+authoritative;
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.10 192.168.1.100;
+  option routers 192.168.1.1;
+  option broadcast-address 192.168.1.255;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+}

@@ -1,0 +1,24 @@
+---
+- name: Configure DHCP server
+  hosts: server
+  become: true
+  tasks:
+    - name: Update packages
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install DHCP server
+      ansible.builtin.apt:
+        name: isc-dhcp-server
+        state: present
+
+    - name: Configure DHCP server
+      ansible.builtin.template:
+        src: dhcpd.conf.j2
+        dest: /etc/dhcp/dhcpd.conf
+        mode: '0644'
+
+    - name: Restart DHCP server
+      ansible.builtin.service:
+        name: isc-dhcp-server
+        state: restarted
