@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -euo pipefail
 
-cd /home/vagrant
+cd /vagrant
 
 # Install python3, pip3 and python3-venv
 # Can't use python3-venv because of a bug in Ubuntu
@@ -15,4 +15,4 @@ pip3 install ansible --no-input --no-cache-dir
 # Add ansible to path
 export PATH=$PATH:/home/vagrant/.local/bin
 
-ansible-playbook -i 'localhost,' localhost play-TP-Test-NP.yml
+ansible-playbook play-TP-Test-NP.yml
