@@ -1,0 +1,19 @@
+# Dockerfile
+
+FROM python:3.13-alpine
+
+# Create app directory
+RUN mkdir -p /home/myapp
+WORKDIR /home/myapp
+
+# Install Flask and Gunicorn
+RUN pip install --no-cache-dir flask==3.0.3 gunicorn==23.0.0
+
+# Copy the Flask app files to the container
+COPY TP-Test-app/ .
+
+# Expose the port the app runs on
+EXPOSE 8082
+
+# Command to run the app
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8082", "flask_app:sample"]

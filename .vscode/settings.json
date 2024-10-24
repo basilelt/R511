@@ -7,5 +7,8 @@
         "networkd",
         "nocommon",
         "webserver"
-    ]
+    ],
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///c%3A/basile/R511/TP-test/play-TP-Test-NP.yml"
+    }
 }
