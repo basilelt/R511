@@ -1,7 +1,6 @@
 ---
 - name : Install docker and run flask container
   host: all
-  become: true
 
   tasks:
     - name: Install required packages
@@ -15,6 +14,7 @@
         state: present
         # Do apt-get update
         update_cache: true
+      become: true
 
     # Unuseful, just as to prove I've copied something using Ansible
     - name: Copy the app to the VM
@@ -32,6 +32,8 @@
       command: docker build -t tptest_24 /home/vagrant/dock-TP-Test_NP .
       args:
         chdir: /home/vagrant/
+      become: true
 
     - name: Run docker container
       command: docker run --name run_tptest_24 -d -p 80:8082 tptest_24
+      become: true
